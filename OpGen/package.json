@@ -1,0 +1,9 @@
+{
+  "name": "op-gen",
+  "version": "0.0.0",
+  "description": "OpGen",
+  "main": "app.js",
+  "author": {
+    "name": "mguko"
+  }
+}

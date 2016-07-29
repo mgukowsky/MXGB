@@ -22,6 +22,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Tt]est/
+[Mm]oc/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -244,3 +245,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+#Other non-generated stuff
+OpGen/bin/
+OpGen/obj/
