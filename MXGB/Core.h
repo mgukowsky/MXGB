@@ -7,6 +7,7 @@
 
 namespace MXGB {
 
+//Handles all system-specific stuff (i.e. windowing, file access, etc.)
 class Core {
 public:
 	static Core& get_app_core();

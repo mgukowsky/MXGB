@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.h"
+#include "CPU.h"
 
 namespace MXGB {
 	const int common_main();

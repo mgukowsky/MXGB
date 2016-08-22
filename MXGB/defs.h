@@ -1,17 +1,21 @@
 #pragma once
 
+//Note that MSVC Release builds define _HAS_EXCEPTION=0 on the command line; this fully turns off exception handling in the STL implementation
+
 #ifdef _MSC_VER
 #define FORCEINLINE		__forceinline
 #else
 #define FORCEINLINE		inline
 #endif
 
+//If we need to test, this macro grants the testrunner complete access to all other classes
 #ifdef TESTBUILD
 #define DECLARE_TESTRUNNER_ACCESS		friend class Testrunner
 #else
 #define DECLARE_TESTRUNNER_ACCESS
 #endif
 
+//Turn off copy, assignment, move, and move assignment constructors
 #define DISABLE_ALTERNATE_CTORS(CLASS_T)\
 	CLASS_T(CLASS_T&) = delete;\
 	CLASS_T& operator=(CLASS_T&) = delete;\
