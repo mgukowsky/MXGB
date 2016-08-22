@@ -30,7 +30,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="OpCreator.js" />
     <Compile Include="OpGen.js" />
+    <Compile Include="OpInfo.js" />
+    <Compile Include="OpManager.js" />
     <Compile Include="Writer.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />

@@ -9,7 +9,9 @@
 using namespace MXGB;
 
 //Hack which lets Google Test access private/protected members of tested classes
-Testrunner *tr;
+namespace {
+	Testrunner *tr;
+};
 
 void Testrunner::run_all_tests() {
 	//Expose this instance to the file;
@@ -64,6 +66,13 @@ void Testrunner::run_basic_cpu_tests() {
 	EXPECT_EQ(0x0080, c.regAF.whole) << "Does not correctly evaluate an entire 16 bit register";
 }
 
+void Testrunner::run_op_cpu_tests() {
+	Bus b;
+	CPU c(b);
+
+	c.reset();
+}
+
 //These macros create the rests which are run by RUN_ALL_TESTS();
 TEST(Bustest, basic) {
 	tr->run_basic_bus_tests();
@@ -71,6 +80,10 @@ TEST(Bustest, basic) {
 
 TEST(CPUtest, basic) {
 	tr->run_basic_cpu_tests();
+}
+
+TEST(CPUtest, op) {
+	tr->run_op_cpu_tests();
 }
 
 #endif /*ifdef TESTBUILD*/

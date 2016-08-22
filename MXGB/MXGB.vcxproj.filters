@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Win">
       <UniqueIdentifier>{b377692f-7a7c-4dc2-816e-72cc9af84937}</UniqueIdentifier>
     </Filter>
+    <Filter Include="moc">
+      <UniqueIdentifier>{1f9aa6fb-2cfa-49d9-af72-2da62019e6d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -37,6 +40,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CPU.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\moc\ops.gen.h">
+      <Filter>moc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\moc\OpcodeVector.gen.h">
+      <Filter>moc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\moc\opdecl.gen.h">
+      <Filter>moc</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

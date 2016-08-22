@@ -11,12 +11,12 @@
 #define regL		regHL.lobyte
 
 //16-bit regs
-#define regAF		regAF.whole
-#define regBC		regBC.whole
-#define regDE		regDE.whole
-#define regHL		regHL.whole
-#define regPC		regPC.whole
-#define regSP		regSP.whole
+#define reg16AF		regAF.whole
+#define reg16BC		regBC.whole
+#define reg16DE		regDE.whole
+#define reg16HL		regHL.whole
+#define reg16PC		regPC.whole
+#define reg16SP		regSP.whole
 
 //ROM execution will start at this address
 #define GB_ENTRY_POINT		0x0100
@@ -26,12 +26,21 @@
 using namespace MXGB;
 
 CPU::CPU(Bus &rb)
-	: refBus(rb) {
+	: refBus(rb), refCore(Core::get_app_core()) {
 
-	regAF = 0;
-	regBC = 0;
-	regDE = 0;
-	regHL = 0;
-	regPC = GB_ENTRY_POINT;
-	regSP = INITIAL_STACK_POSITION;
+	reset();
 }
+
+void CPU::reset() {
+	reg16AF = 0;
+	reg16BC = 0;
+	reg16DE = 0;
+	reg16HL = 0;
+	reg16PC = GB_ENTRY_POINT;
+	reg16SP = INITIAL_STACK_POSITION;
+}
+
+//Generated opcode vector and operation definitions go here
+#include "../moc/OpcodeVector.gen.h"
+#include "../moc/ops.gen.h"
+

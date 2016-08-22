@@ -25,6 +25,9 @@ const int MXGB::common_main() {
 
 //Entry points
 #ifdef TESTBUILD
+#ifdef _WIN64
+#pragma message("Warning: please supply a 64 bit version of gtest.lib if building x64 test build")
+#endif
 
 #include "Testrunner.h"
 #include <gtest\gtest.h>

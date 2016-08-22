@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Core.h"
+#include "Component.h"
 
 namespace MXGB {
 
 //Handles the emulated memory of the app; essentially a pseudo-MMU
-class Bus {
+class Bus : public Component {
 DECLARE_TESTRUNNER_ACCESS;
 public:
 	Bus();
@@ -15,6 +16,8 @@ public:
 
 	//Check if an error occurred during the ctor
 	const bool is_mem_allocated() { return !!_mem; }
+
+	void reset() override final;
 
 	//Readers and writers for main memory
 	FORCEINLINE u8 read8(u16 addr) { return *(_mem + coerce_address(addr)); }

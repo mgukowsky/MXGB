@@ -5,7 +5,7 @@
 namespace MXGB {
 
 //Emulates the Game Boy's modified Z80 processor
-class CPU {
+class CPU : public Component {
 DECLARE_TESTRUNNER_ACCESS;
 
 public:
@@ -14,7 +14,19 @@ public:
 
 	DISABLE_ALTERNATE_CTORS(CPU);
 
+	void reset() override final;
+
 private:
+	/**
+	 * @brief Function pointers to the functions for CPU operations
+	 * 
+	 * @return The number of machine cycles taken
+	 */
+	typedef const u8(*OpCallback)(CPU &thisCPU);
+
+	//Opcodes serve as an index into this array to retrieve the correct callback
+	static const OpCallback OpcodeVector[];
+
 	union Z80REG {
 		u16 whole;
 		struct {
@@ -31,6 +43,10 @@ private:
 	} regAF, regBC, regDE, regHL, regPC, regSP;
 
 	Bus &refBus;
+	Core &refCore;
+
+	//The opcode vector and headers for the opcode callbacks are generated and placed here
+#include"../moc/opdecl.gen.h"
 
 };
 

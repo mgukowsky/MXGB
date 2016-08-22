@@ -18,6 +18,7 @@ public:
 
 	void run_basic_bus_tests();
 	void run_basic_cpu_tests();
+	void run_op_cpu_tests();
 
 };
 
