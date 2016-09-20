@@ -19,6 +19,9 @@
     <Filter Include="moc">
       <UniqueIdentifier>{1f9aa6fb-2cfa-49d9-af72-2da62019e6d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{26448ab6-0286-4b77-b0f0-f43b33b4ff20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="testFiles\ops.test.h">
+      <Filter>Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

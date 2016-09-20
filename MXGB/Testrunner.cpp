@@ -67,10 +67,10 @@ void Testrunner::run_basic_cpu_tests() {
 }
 
 void Testrunner::run_op_cpu_tests() {
-	Bus b;
-	CPU c(b);
 
-	c.reset();
+//This file contains the tests to run within this function
+#include "testFiles\ops.test.h"
+
 }
 
 //These macros create the rests which are run by RUN_ALL_TESTS();

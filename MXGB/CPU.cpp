@@ -21,7 +21,7 @@
 //ROM execution will start at this address
 #define GB_ENTRY_POINT		0x0100
 
-#define INITIAL_STACK_POSITION		0xFFFE;
+#define INITIAL_STACK_POSITION		0xFFFE
 
 using namespace MXGB;
 
@@ -38,6 +38,11 @@ void CPU::reset() {
 	reg16HL = 0;
 	reg16PC = GB_ENTRY_POINT;
 	reg16SP = INITIAL_STACK_POSITION;
+}
+
+const u8 CPU::execute_next() {
+	//Get the opcode at PC, use it to get the callback, and invoke it with the correct context
+	return OpcodeVector[refBus.read8(reg16PC)](*this);
 }
 
 //Generated opcode vector and operation definitions go here

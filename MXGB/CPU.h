@@ -14,7 +14,17 @@ public:
 
 	DISABLE_ALTERNATE_CTORS(CPU);
 
+	/**
+	 * @brief Sets all registers to zero (does NOT affect refBus)
+	 */
 	void reset() override final;
+
+	/**
+	 * @brief Execute the CPU instruction at regPC
+	 * 
+	 * @return The number of cycles taken
+	 */
+	const u8 execute_next();
 
 private:
 	/**

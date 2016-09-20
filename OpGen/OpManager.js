@@ -10,7 +10,7 @@ var oc = new OpCreator();
 
 var OpManager = function () { }
 
-const TAB_SIZE = 2, NUM_TABS = 16;
+const TAB_SIZE = 2, NUM_TABS = 24;
 
 //Returns an array containing the declarations of every operation callback
 OpManager.prototype.makeDeclarations = function () {

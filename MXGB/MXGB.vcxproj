@@ -193,6 +193,7 @@
     <ClInclude Include="CPU.h" />
     <ClInclude Include="defs.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="testFiles\ops.test.h" />
     <ClInclude Include="Testrunner.h" />
     <ClInclude Include="Win\Core.impl.h" />
   </ItemGroup>
