@@ -215,6 +215,84 @@ TEST_LD_indirect_A(0x02, reg16BC);
 TEST_LD_indirect_A(0x12, reg16DE);
 TEST_LD_indirectImm_A(0xEA);
 
+//One-offs can just be defined inline
+
+//LD A, (C)
+b.reset();
+c.reset();
+b.write8(GB_ENTRY_POINT, 0xF2);
+b.write8(0xFFCD, MAGIC_NUMBER);
+c.regC = 0xCD;
+EXPECT_EQ(8, c.execute_next()) << "Opcode " << 0xF2 << " does not execute in 8 cycles";
+EXPECT_EQ(MAGIC_NUMBER, c.regA) << "Opcode " << 0xF2 << " does not load an address in high RAM into regA";
+
+//LD (C), A
+b.reset();
+c.reset();
+b.write8(GB_ENTRY_POINT, 0xE2);
+c.regA = MAGIC_NUMBER;
+c.regC = 0xCD;
+EXPECT_EQ(8, c.execute_next()) << "Opcode " << 0xE2 << " does not execute in 8 cycles";
+EXPECT_EQ(MAGIC_NUMBER, b.read8(0xFFCD)) << "Opcode " << 0xE2 << " does not load the value in regA into an address in high RAM";
+
+//LDD A, (HL)
+b.reset();
+c.reset();
+c.reg16HL = MAGIC_ADDRESS;
+b.write8(GB_ENTRY_POINT, 0x3A);
+b.write8(MAGIC_ADDRESS, MAGIC_NUMBER);
+EXPECT_EQ(8, c.execute_next()) << "Opcode " << 0x3A << " does not execute in 8 cycles";
+EXPECT_EQ(MAGIC_NUMBER, c.regA) << "Opcode " << 0x3A << " does not load an 8-bit value at (HL) into regA";
+EXPECT_EQ(MAGIC_ADDRESS - 1, c.reg16HL) << "Opcode " << 0x3A << " does not decrement reg16HL after performing the indirect load";
+
+//LDD (HL), A
+b.reset();
+c.reset();
+c.reg16HL = MAGIC_ADDRESS;
+b.write8(GB_ENTRY_POINT, 0x32);
+c.regA = MAGIC_NUMBER;
+EXPECT_EQ(8, c.execute_next()) << "Opcode " << 0x32 << " does not execute in 8 cycles";
+EXPECT_EQ(MAGIC_NUMBER, b.read8(MAGIC_ADDRESS)) << "Opcode " << 0x32 << " does not load the value in regA into (HL)";
+EXPECT_EQ(MAGIC_ADDRESS - 1, c.reg16HL) << "Opcode " << 0x32 << " does not decrement reg16HL after performing the indirect load";
+
+//LDI A, (HL)
+b.reset();
+c.reset();
+c.reg16HL = MAGIC_ADDRESS;
+b.write8(GB_ENTRY_POINT, 0x2A);
+b.write8(MAGIC_ADDRESS, MAGIC_NUMBER);
+EXPECT_EQ(8, c.execute_next()) << "Opcode " << 0x2A << " does not execute in 8 cycles";
+EXPECT_EQ(MAGIC_NUMBER, c.regA) << "Opcode " << 0x2A << " does not load an 8-bit value at (HL) into regA";
+EXPECT_EQ(MAGIC_ADDRESS + 1, c.reg16HL) << "Opcode " << 0x2A << " does not increment reg16HL after performing the indirect load";
+
+//LDI (HL), A
+b.reset();
+c.reset();
+c.reg16HL = MAGIC_ADDRESS;
+b.write8(GB_ENTRY_POINT, 0x22);
+c.regA = MAGIC_NUMBER;
+EXPECT_EQ(8, c.execute_next()) << "Opcode " << 0x22 << " does not execute in 8 cycles";
+EXPECT_EQ(MAGIC_NUMBER, b.read8(MAGIC_ADDRESS)) << "Opcode " << 0x22 << " does not load the value in regA into (HL)";
+EXPECT_EQ(MAGIC_ADDRESS + 1, c.reg16HL) << "Opcode " << 0x22 << " does not increment reg16HL after performing the indirect load";
+
+//LD A, ($FF00+n)
+b.reset();
+c.reset();
+b.write8(GB_ENTRY_POINT, 0xF0);
+b.write8(GB_ENTRY_POINT+1, 0xCD);
+b.write8(0xFFCD, MAGIC_NUMBER);
+EXPECT_EQ(12, c.execute_next()) << "Opcode " << 0xF0 << " does not execute in 12 cycles";
+EXPECT_EQ(MAGIC_NUMBER, c.regA) << "Opcode " << 0xF0 << " does not load an address in high RAM into regA";
+
+//LD ($FF00+n), A
+b.reset();
+c.reset();
+b.write8(GB_ENTRY_POINT, 0xE0);
+b.write8(GB_ENTRY_POINT + 1, 0xCD);
+c.regA = MAGIC_NUMBER;
+EXPECT_EQ(12, c.execute_next()) << "Opcode " << 0xE2 << " does not execute in 12 cycles";
+EXPECT_EQ(MAGIC_NUMBER, b.read8(0xFFCD)) << "Opcode " << 0xE2 << " does not load the value in regA into an address in high RAM";
+
 
 //Remove our macros
 #undef regA		

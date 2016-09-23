@@ -14,12 +14,12 @@ const TAB_SIZE = 2, NUM_TABS = 24;
 
 //Returns an array containing the declarations of every operation callback
 OpManager.prototype.makeDeclarations = function () {
-	var qualifier = "static const u8";
+	var qualifier = "const u8";
 	var decls = [];
 
-	decls.push(`${qualifier} ERR(CPU &thisCPU);`);
+	decls.push(`${qualifier} ERR();`);
 
-	Object.keys(OpInfo).forEach(key => decls.push(`${qualifier} ${oc.getOpName(Number(key))}(CPU &thisCPU);`));
+	Object.keys(OpInfo).forEach(key => decls.push(`${qualifier} ${oc.getOpName(Number(key))}();`));
 
 	return decls;
 }
@@ -45,7 +45,7 @@ OpManager.prototype.makeOpVector = function () {
 		}
 
 		//Append the function pointer, and space them appropriately (N.B. assumes tab size is equal to 2 spaces)
-		outputString += opName + `,${('\t').repeat(NUM_TABS - (opName.length / TAB_SIZE))}`;
+		outputString += "&" + opName + `,${('\t').repeat(NUM_TABS - (opName.length / TAB_SIZE))}`;
 	}
 
 	outputString += footer;

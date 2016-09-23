@@ -28,11 +28,11 @@ public:
 
 private:
 	/**
-	 * @brief Function pointers to the functions for CPU operations
+	 * @brief Function pointers to the functions for CPU operations (note pointer-to-member-function syntax)
 	 * 
 	 * @return The number of machine cycles taken
 	 */
-	typedef const u8(*OpCallback)(CPU &thisCPU);
+	typedef const u8(CPU::*OpCallback)();
 
 	//Opcodes serve as an index into this array to retrieve the correct callback
 	static const OpCallback OpcodeVector[];

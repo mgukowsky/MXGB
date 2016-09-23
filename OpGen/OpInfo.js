@@ -15,6 +15,8 @@ var IND = "IND"; //Indirect (HL)
 var INDBC = "reg16BC"; //(BC)
 var INDDE = "reg16DE"; //(DE)
 var INDIMM = "INDIMM"; //(nn)
+var HIGHRAM = "HIGHRAM"; //($FF00+C)
+var HIGHRAMIMM = "HIGHRAMIMM"; //($FF00+n), where n is an immediate 8-bit value
 
 //Operations are categorized in many sources; we follow that convention here
 var opgroups = {};
@@ -25,6 +27,11 @@ opgroups.LD_indirectHL_R = 3;
 opgroups.LD_indirectHL_N = 4;
 opgroups.LD_A_indirect = 5;
 opgroups.LD_indirect_A = 6;
+opgroups.LD_A_high_ram = 7;
+opgroups.LD_high_ram_A = 8;
+opgroups.LDD = 9;
+opgroups.LDI = 10;
+opgroups.LD_high_ram_imm = 11;
 		
 OpInfo[0x06] = { opgroup: opgroups.LD_R_N, dst: regB, src: IMM };
 OpInfo[0x0E] = { opgroup: opgroups.LD_R_N, dst: regC, src: IMM };
@@ -75,6 +82,30 @@ OpInfo[0xFA] = { opgroup: opgroups.LD_A_indirect, dst: regA, src: INDIMM }; //GB
 OpInfo[0x02] = { opgroup: opgroups.LD_indirect_A, dst: INDBC, src: regA };
 OpInfo[0x12] = { opgroup: opgroups.LD_indirect_A, dst: INDDE, src: regA };
 OpInfo[0xEA] = { opgroup: opgroups.LD_indirect_A, dst: INDIMM, src: regA }; //GB exclusive
+
+//LD A, ($FF00+C)
+OpInfo[0xF2] = { opgroup: opgroups.LD_A_high_ram, dst: regA, src: HIGHRAM };
+
+//LD ($FF00+C), A
+OpInfo[0xE2] = { opgroup: opgroups.LD_high_ram_A, dst: HIGHRAM, src: regA };
+
+//LDD A, (HL)
+OpInfo[0x3A] = { opgroup: opgroups.LDD, dst: regA, src: IND };
+
+//LDD (HL), A
+OpInfo[0x32] = { opgroup: opgroups.LDD, dst: IND, src: regA };
+
+//LDI A, (HL)
+OpInfo[0x2A] = { opgroup: opgroups.LDI, dst: regA, src: IND };
+
+//LDI (HL), A
+OpInfo[0x22] = { opgroup: opgroups.LDI, dst: IND, src: regA };
+
+//LD ($FF00+n), A
+OpInfo[0xE0] = { opgroup: opgroups.LD_high_ram_imm, dst: HIGHRAMIMM, src: regA };
+
+//LD A, ($FF00+n)
+OpInfo[0xF0] = { opgroup: opgroups.LD_high_ram_imm, dst: regA, src: HIGHRAMIMM };
 
 module.exports.OpInfo = OpInfo;
 module.exports.opgroups = opgroups;
