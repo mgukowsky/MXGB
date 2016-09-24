@@ -9,7 +9,7 @@ class CPU : public Component {
 DECLARE_TESTRUNNER_ACCESS;
 
 public:
-	CPU(Bus& rb);
+	explicit CPU(Bus& rb);
 	~CPU() = default;
 
 	DISABLE_ALTERNATE_CTORS(CPU);
@@ -24,7 +24,13 @@ public:
 	 * 
 	 * @return The number of cycles taken
 	 */
-	const u8 execute_next();
+	FORCEINLINE const u8 execute_next() {
+		//Get the opcode at PC, use it to get the callback, and invoke it with the correct context.
+		//Invoking a pointer to a member function has an annoying syntax, which needs an explicit 'this' and specific parentheses:
+		//		(this->*memberFuncPtr)(memberFuncArgs...);
+		//This is because operator() has a higher precedence than operator->*, and operator->* needs to evaluate first
+		return (this->*(OpcodeVector[refBus.read8(regPC.whole)]))();
+	}
 
 private:
 	/**

@@ -40,14 +40,6 @@ void CPU::reset() {
 	reg16SP = INITIAL_STACK_POSITION;
 }
 
-const u8 CPU::execute_next() {
-	//Get the opcode at PC, use it to get the callback, and invoke it with the correct context.
-	//Invoking a pointer to a member function has an annoying syntax, which needs an explicit 'this' and specific parentheses:
-	//		(this->*memberFuncPtr)(memberFuncArgs...);
-	//This is because operator() has a higher precedence than operator->*, and operator->* needs to evaluate first
-	return (this->*(OpcodeVector[refBus.read8(reg16PC)]))();
-}
-
 //Generated opcode vector and operation definitions go here
 #include "../moc/OpcodeVector.gen.h"
 #include "../moc/ops.gen.h"
